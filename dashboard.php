@@ -14,10 +14,33 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welkom op je dashboard, <?php echo htmlspecialchars($_SESSION['Gebruiker']); ?>!</h1>
-    <p>Je bent ingelogd!</p>
-    <a href="logout.php">Uitloggen</a>
+    <div class="navbar">
+        <div class="brand">Mijn Dashboard</div>
+        <div class="hamburger" onclick="toggleMenu()">
+            &#9776;
+        </div>
+        <div class="menu" id="menu">
+            <a href="dashboard.php">Home</a>
+            <a href="profiel.php">Profiel</a>
+            <a href="instellingen.php">Instellingen</a>
+            <a href="logout.php">Uitloggen</a>
+            <a href="klantenbestand.php">Klantenbestand</a>
+                </div>
+    </div>
+
+    <main>
+        <h1>Welkom op je dashboard, <?php echo htmlspecialchars($_SESSION['Gebruiker']); ?>!</h1>
+        <p>Gebruik het menu hierboven om te navigeren.</p>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            menu.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
