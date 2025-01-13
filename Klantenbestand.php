@@ -2,13 +2,15 @@
 session_start();
 
 class Klant {
-    public $naam;
+    public $voornaam;
+    public $achternaam;
     public $email;
     public $adres = [];
     public $telefoonnummers = [];
 
-    public function __construct($naam, $email) {
-        $this->naam = $naam;
+    public function __construct($voornaam, $achternaam, $email) {
+        $this->voornaam = $voornaam;
+        $this->achternaam = $achternaam;
         $this->email = $email;
     }
 
@@ -41,21 +43,21 @@ class Klant {
         $adresString = empty($this->adres) ? "Geen adres beschikbaar" : implode(", ", $this->adres);
         $telefoonString = empty($this->telefoonnummers) ? "Geen telefoonnummers beschikbaar" : implode(", ", $this->telefoonnummers);
 
-        return "Naam: {$this->naam}, Email: {$this->email}, Adres: {$adresString}, Telefoonnummers: {$telefoonString}";
+        return "Naam: {$this->voornaam} {$this->achternaam}, Email: {$this->email}, Adres: {$adresString}, Telefoonnummers: {$telefoonString}";
     }
 }
 
 class KlantenSchema {
     public $klanten = [];
 
-    public function klantToevoegen($naam, $email) {
-        $nieuweKlant = new Klant($naam, $email);
+    public function klantToevoegen($voornaam, $achternaam, $email) {
+        $nieuweKlant = new Klant($voornaam, $achternaam, $email);
         $this->klanten[] = $nieuweKlant;
     }
 
-    public function klantVerwijderen($naam) {
+    public function klantVerwijderen($email) {
         foreach ($this->klanten as $index => $klant) {
-            if ($klant->naam == $naam) {
+            if ($klant->email == $email) {
                 unset($this->klanten[$index]);
                 $this->klanten = array_values($this->klanten);
                 return true;
@@ -64,9 +66,15 @@ class KlantenSchema {
         return false;
     }
 
-    public function klantAanpassen($naam, $nieuwe_email = null) {
+    public function klantAanpassen($email, $nieuwe_voornaam = null, $nieuwe_achternaam = null, $nieuwe_email = null) {
         foreach ($this->klanten as $klant) {
-            if ($klant->naam == $naam) {
+            if ($klant->email == $email) {
+                if ($nieuwe_voornaam) {
+                    $klant->voornaam = $nieuwe_voornaam;
+                }
+                if ($nieuwe_achternaam) {
+                    $klant->achternaam = $nieuwe_achternaam;
+                }
                 if ($nieuwe_email) {
                     $klant->email = $nieuwe_email;
                 }
@@ -91,32 +99,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $actie = $_POST['actie'];
 
     if ($actie == 'toevoegen') {
-        $schema->klantToevoegen($_POST['naam'], $_POST['email']);
+        $schema->klantToevoegen($_POST['voornaam'], $_POST['achternaam'], $_POST['email']);
     } elseif ($actie == 'verwijderen') {
-        $schema->klantVerwijderen($_POST['naam']);
+        $schema->klantVerwijderen($_POST['email']);
     } elseif ($actie == 'aanpassen') {
-        $schema->klantAanpassen($_POST['naam'], $_POST['nieuwe_email']);
+        $schema->klantAanpassen($_POST['email'], $_POST['nieuwe_voornaam'], $_POST['nieuwe_achternaam'], $_POST['nieuwe_email']);
     } elseif ($actie == 'adres_toevoegen') {
         foreach ($schema->klantenWeergeven() as $klant) {
-            if ($klant->naam == $_POST['naam']) {
+            if ($klant->email == $_POST['email']) {
                 $klant->voegAdresToe($_POST['straat'], $_POST['huisnummer'], $_POST['postcode'], $_POST['plaats']);
             }
         }
     } elseif ($actie == 'adres_verwijderen') {
         foreach ($schema->klantenWeergeven() as $klant) {
-            if ($klant->naam == $_POST['naam']) {
+            if ($klant->email == $_POST['email']) {
                 $klant->verwijderAdres();
             }
         }
     } elseif ($actie == 'telefoon_toevoegen') {
         foreach ($schema->klantenWeergeven() as $klant) {
-            if ($klant->naam == $_POST['naam']) {
+            if ($klant->email == $_POST['email']) {
                 $klant->voegTelefoonnummerToe($_POST['telefoon']);
             }
         }
     } elseif ($actie == 'telefoon_verwijderen') {
         foreach ($schema->klantenWeergeven() as $klant) {
-            if ($klant->naam == $_POST['naam']) {
+            if ($klant->email == $_POST['email']) {
                 $klant->verwijderTelefoonnummer($_POST['telefoon']);
             }
         }
@@ -205,20 +213,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2 id="toevoegen">Klant toevoegen</h2>
         <form method="post">
             <input type="hidden" name="actie" value="toevoegen">
-            <label>Naam: <input type="text" name="naam" required></label><br>
-            <label>Email: <input type="email" name="email" required></label><br>
-            <button type="submit">Toevoegen</button>
-        </form>
-
-        <h2 id="verwijderen">Klant verwijderen</h2>
-        <form method="post">
-            <input type="hidden" name="actie" value="verwijderen">
-            <label>Naam: <input type="text" name="naam" required></label><br>
-            <button type="submit">Verwijderen</button>
-        </form>
-
-        <h2 id="aanpassen">Klant aanpassen</h2>
-        <form method="post">
-            <input type="hidden" name="actie" value="aanpassen">
-            <label>Naam: <input type="text" name="naam" required></label><br>
-            <label>Nieuwe Email
+            <label>Voornaam: <input type="text" name="voornaam" required></label><br>
+            <label>Achternaam: <input type="text" name="achternaam" required></label><br>
+            <label>Email: <input type="email" name
