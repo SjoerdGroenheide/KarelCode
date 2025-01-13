@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klantenbeheer</title>
     <style>
-        /* Stijl voor het hamburgermenu */
+        /* Basisstijlen voor hamburgermenu */
         .menu-bar {
             display: flex;
             justify-content: space-between;
@@ -83,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             right: 0;
             background-color: #333;
             width: 100%;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
         }
 
         .menu-bar .menu a {
@@ -116,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background-color: white;
         }
 
-        /* Zorg ervoor dat het menu alleen zichtbaar is op kleinere schermen */
+        /* Zorg ervoor dat het menu zichtbaar is op kleinere schermen */
         @media screen and (max-width: 768px) {
             .menu-bar .menu {
                 display: none;
@@ -131,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Functie om het menu in of uit te schakelen
         function toggleMenu() {
             const menuBar = document.querySelector('.menu-bar');
-            menuBar.classList.toggle('active');
+            menuBar.classList.toggle('active'); // Zorgt ervoor dat het menu zichtbaar wordt
         }
     </script>
 </head>
