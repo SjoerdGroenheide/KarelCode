@@ -65,75 +65,79 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klantenbeheer</title>
     <style>
-        /* Basisstijlen voor hamburgermenu */
-        .menu-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #333;
-            padding: 10px;
-        }
+/* Basisstijlen voor hamburgermenu */
+.menu-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+    position: relative; /* Voeg deze regel toe voor positie */
+}
 
-        .menu-bar .menu {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            position: absolute;
-            top: 50px;
-            right: 0;
-            background-color: #333;
-            width: 100%;
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-        }
+.menu-bar .menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #333;
+    width: 200px; /* Pas de breedte aan naar wens */
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    visibility: hidden; /* Menu is verborgen standaard */
+}
 
-        .menu-bar .menu a {
-            color: white;
-            padding: 10px;
-            text-decoration: none;
-            text-align: center;
-            display: block;
-            width: 100%;
-        }
+.menu-bar .menu a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    width: 100%;
+}
 
-        .menu-bar .menu a:hover {
-            background-color: #575757;
-        }
+.menu-bar .menu a:hover {
+    background-color: #575757;
+}
 
-        .hamburger {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            width: 30px;
-            height: 30px;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-        }
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
 
-        .hamburger div {
-            width: 30px;
-            height: 5px;
-            background-color: white;
-        }
+.hamburger div {
+    width: 30px;
+    height: 5px;
+    background-color: white;
+}
 
-        /* Zorg ervoor dat het menu zichtbaar is op kleinere schermen */
-        @media screen and (max-width: 768px) {
-            .menu-bar .menu {
-                display: none;
-            }
-            .menu-bar.active .menu {
-                display: flex;
-            }
-        }
+/* Zorg ervoor dat het menu zichtbaar is op kleinere schermen */
+@media screen and (max-width: 768px) {
+    .menu-bar .menu {
+        display: flex;
+        visibility: hidden; /* Blijft standaard verborgen */
+    }
+
+    .menu-bar.active .menu {
+        visibility: visible; /* Menu wordt zichtbaar als de .active klasse is toegevoegd */
+    }
+}
     </style>
 
     <script>
-        // Functie om het menu in of uit te schakelen
-        function toggleMenu() {
-            const menuBar = document.querySelector('.menu-bar');
-            menuBar.classList.toggle('active'); // Zorgt ervoor dat het menu zichtbaar wordt
-        }
+// Functie om het menu in of uit te schakelen
+function toggleMenu() {
+    const menuBar = document.querySelector('.menu-bar');
+    menuBar.classList.toggle('active'); // Zorgt ervoor dat het menu zichtbaar wordt
+}
     </script>
 </head>
 <body>
