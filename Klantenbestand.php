@@ -64,8 +64,94 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klantenbeheer</title>
+    <style>
+        /* Stijl voor het hamburgermenu */
+        .menu-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px;
+        }
+
+        .menu-bar .menu {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: #333;
+            width: 100%;
+        }
+
+        .menu-bar .menu a {
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+            width: 100%;
+        }
+
+        .menu-bar .menu a:hover {
+            background-color: #575757;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 30px;
+            height: 5px;
+            background-color: white;
+        }
+
+        /* Zorg ervoor dat het menu alleen zichtbaar is op kleinere schermen */
+        @media screen and (max-width: 768px) {
+            .menu-bar .menu {
+                display: none;
+            }
+            .menu-bar.active .menu {
+                display: flex;
+            }
+        }
+    </style>
+
+    <script>
+        // Functie om het menu in of uit te schakelen
+        function toggleMenu() {
+            const menuBar = document.querySelector('.menu-bar');
+            menuBar.classList.toggle('active');
+        }
+    </script>
 </head>
 <body>
+    <!-- Hamburgermenu -->
+    <div class="menu-bar">
+        <button class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </button>
+        <div class="menu">
+            <a href="#">Home</a>
+            <a href="#">Klantenlijst</a>
+            <a href="#">Klant toevoegen</a>
+            <a href="#">Klant verwijderen</a>
+            <a href="#">Klant aanpassen</a>
+        </div>
+    </div>
+
     <h1>Klantenbeheer</h1>
     <h2>Klantenlijst</h2>
     <ul>
