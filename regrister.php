@@ -55,9 +55,23 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Registratie</title>
 </head>
 <body>
+<div class="hamburger-menu">
+    <input id="menu__toggle" type="checkbox" />
+    <label class="menu__btn" for="menu__toggle">
+      <span></span>
+    </label>
+
+    <ul class="menu__box">
+      <li><a class="menu__item" href="dashboard.php">Home</a></li>
+			<li><a class="menu__item" href="Klantenbestand.php">Klantenbestand</a></li>
+			<li><a class="menu__item" href="regrister.php">Regrister</a></li>
+			<li><a class="menu__item" href="medewerker.php">Medewerkers</a></li>
+    </ul>
+  </div>
     <h2>Registreren</h2>
     <form action="register.php" method="POST">
         <label for="username">Gebruikersnaam:</label><br>

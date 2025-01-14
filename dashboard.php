@@ -17,19 +17,19 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">Mijn Dashboard</div>
-        <div class="hamburger" onclick="toggleMenu()">
-            &#9776;
-        </div>
-        <div class="menu" id="menu">
-            <a href="dashboard.php">Home</a>
-            <a href="Medewerker.php">Medewerkers</a>
-            <a href="instellingen.php">Instellingen</a>
-            <a href="index.php">Uitloggen</a>
-            <a href="klantenbestand.php">Klantenbestand</a>
-                </div>
-    </div>
+<div class="hamburger-menu">
+    <input id="menu__toggle" type="checkbox" />
+    <label class="menu__btn" for="menu__toggle">
+      <span></span>
+    </label>
+
+    <ul class="menu__box">
+      <li><a class="menu__item" href="dashboard.php">Home</a></li>
+			<li><a class="menu__item" href="Klantenbestand.php">Klantenbestand</a></li>
+			<li><a class="menu__item" href="regrister.php">Regrister</a></li>
+			<li><a class="menu__item" href="medewerker.php">Medewerkers</a></li>
+    </ul>
+  </div>
 
     <main>
         <h1>Welkom op je dashboard, <?php echo htmlspecialchars($_SESSION['Gebruiker']); ?>!</h1>
