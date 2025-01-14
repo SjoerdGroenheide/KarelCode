@@ -16,7 +16,7 @@ try {
 
 // Functie om klanten weer te geven
 function klantenWeergeven($pdo) {
-    $stmt = $pdo->query("SELECT * FROM klanten");
+    $stmt = $pdo->query("SELECT KlantID, Voornaam, Achternaam, TelefoonNummer FROM klanten");
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -86,8 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php foreach (klantenWeergeven($pdo) as $klant): ?>
             <li>
                 <?= "ID: {$klant['KlantID']}, Naam: {$klant['Voornaam']} {$klant['Achternaam']}, 
-                Telefoon: {$klant['TelefoonNummer']}, Adres: {$klant['Straat']} {$klant['Huisnummer']}, 
-                {$klant['postcode']} {$klant['Plaats']}, Email: {$klant['Email']}" ?>
+                Telefoon: {$klant['TelefoonNummer']}" ?>
             </li>
         <?php endforeach; ?>
     </ul>

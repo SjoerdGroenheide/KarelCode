@@ -31,15 +31,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
 
-        // Vergelijk het ingevoerde wachtwoord met het wachtwoord in de database (platte tekst)
+        // Vergelijken wachtwoord met gebruiker wachtwoord
         if ($pass == $row['Wachtwoord']) {
-            // Start een sessie en sla gebruikersgegevens op
+            // Starten van de sessie 
             $_SESSION['loggedin'] = true;
             $_SESSION['Gebruiker'] = $user;
 
-            // Doorsturen naar dashboard.php
+            // Doorsturen naar main pagina
             header("Location: dashboard.php");
-            exit; // Zorg ervoor dat de script verder niet uitgevoerd wordt na de redirect
+            exit; // Zorgen dat het script wordt gestopt als de gegens kloppen anders gaat hij door 
         } else {
             $error_message = "Ongeldige gebruikersnaam of wachtwoord.";
         }

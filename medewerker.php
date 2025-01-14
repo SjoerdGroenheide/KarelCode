@@ -20,7 +20,7 @@ if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
-// Verwijder een medewerker als dat is aangevraagd
+// Verwijder een medewerkerD
 if (isset($_GET['verwijder'])) {
     $userid = intval($_GET['verwijder']);
     $deleteQuery = "DELETE FROM gebruikers WHERE UserID = ?";
@@ -102,12 +102,12 @@ $result = $conn->query($query);
                 <?php if ($result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($row['Gebruiker']); ?></td>
-                            <td><?php echo htmlspecialchars($row['Voornaam']); ?></td>
-                            <td><?php echo htmlspecialchars($row['Achternaam']); ?></td>
-                            <td><?php echo htmlspecialchars($row['Email']); ?></td>
-                            <td><?php echo htmlspecialchars($row['TelefoonNummer']); ?></td>
-                            <td><?php echo htmlspecialchars($row['Account_type']); ?></td>
+                            <td><?php echo ($row['Gebruiker']); ?></td>
+                            <td><?php echo ($row['Voornaam']); ?></td>
+                            <td><?php echo ($row['Achternaam']); ?></td>
+                            <td><?php echo ($row['Email']); ?></td>
+                            <td><?php echo ($row['TelefoonNummer']); ?></td>
+                            <td><?php echo ($row['Account_type']); ?></td>
                             <td>
                                 <a class="delete-btn" href="Medewerker.php?verwijder=<?php echo $row['UserID']; ?>" onclick="return confirm('Weet je zeker dat je deze medewerker wilt verwijderen?');">Verwijderen</a>
                             </td>
@@ -133,6 +133,7 @@ $result = $conn->query($query);
             <select id="account_type" name="account_type" required>
                 <option value="Admin">Admin</option>
                 <option value="Medewerker">Medewerker</option>
+                <option value="stagiair">Stagiair</option>
             </select>
 
             <label for="voornaam">Voornaam:</label>
