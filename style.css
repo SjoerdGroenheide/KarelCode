@@ -1,5 +1,5 @@
 #grad1 {
-    background-image: linear-gradient (to right, #119DA4, #0C7489, #13505B );
+    background-color: linear-gradient (to right, #119DA4, #0C7489, #13505B );
 }
 #menu__toggle {
     opacity: 0;
