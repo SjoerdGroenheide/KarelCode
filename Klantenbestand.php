@@ -65,97 +65,93 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klantenbeheer</title>
     <style>
-/* Basisstijlen voor hamburgermenu */
-.menu-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    padding: 10px;
-    position: relative; /* Voeg deze regel toe voor positie */
+#menu__toggle {
+  opacity: 0;
 }
-
-.menu-bar .menu {
-    display: none; /* Menu standaard verborgen */
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 50px;
-    right: 0;
-    background-color: #333;
-    width: 200px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+#menu__toggle:checked + .menu__btn > span {
+  transform: rotate(45deg);
 }
-
-.menu-bar.active .menu {
-    display: flex; /* Menu zichtbaar maken */
+#menu__toggle:checked + .menu__btn > span::before {
+  top: 0;
+  transform: rotate(0deg);
 }
-
-.menu-bar .menu a {
-    color: white;
-    padding: 10px;
-    text-decoration: none;
-    text-align: center;
-    display: block;
-    width: 100%;
+#menu__toggle:checked + .menu__btn > span::after {
+  top: 0;
+  transform: rotate(90deg);
 }
-
-.menu-bar .menu a:hover {
-    background-color: #575757;
+#menu__toggle:checked ~ .menu__box {
+  left: 0 !important;
 }
-
-.hamburger {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    width: 30px;
-    height: 30px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+.menu__btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  z-index: 1;
 }
-
-.hamburger div {
-    width: 30px;
-    height: 5px;
-    background-color: white;
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #616161;
+  transition-duration: .25s;
 }
-
-/* Zorg ervoor dat het menu zichtbaar is op kleinere schermen */
-@media screen and (max-width: 768px) {
-    .menu-bar .menu {
-        display: flex;
-        visibility: hidden; /* Blijft standaard verborgen */
-    }
-
-    .menu-bar.active .menu {
-        visibility: visible; /* Menu wordt zichtbaar als de .active klasse is toegevoegd */
-    }
+.menu__btn > span::before {
+  content: '';
+  top: -8px;
+}
+.menu__btn > span::after {
+  content: '';
+  top: 8px;
+}
+.menu__box {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 300px;
+  height: 100%;
+  margin: 0;
+  padding: 80px 0;
+  list-style: none;
+  background-color: #ECEFF1;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+  transition-duration: .25s;
+}
+.menu__item {
+  display: block;
+  padding: 12px 24px;
+  color: #333;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  transition-duration: .25s;
+}
+.menu__item:hover {
+  background-color: #CFD8DC;
 }
     </style>
 
-<div class="menu-bar">
-    <button class="hamburger" onclick="toggleMenu()">
-        <div></div>
-        <div></div>
-        <div></div>
-    </button>
-    <div class="menu">
-        <a href="#">Home</a>
-        <a href="#">Klantenlijst</a>
-        <a href="#">Klant toevoegen</a>
-        <a href="#">Klant verwijderen</a>
-        <a href="#">Klant aanpassen</a>
-    </div>
-</div>
+<div class="hamburger-menu">
+    <input id="menu__toggle" type="checkbox" />
+    <label class="menu__btn" for="menu__toggle">
+      <span></span>
+    </label>
 
-<script>
-    function toggleMenu() {
-        const menuBar = document.querySelector('.menu-bar');
-        menuBar.classList.toggle('active');
-    }
-</script>
+    <ul class="menu__box">
+      <li><a class="menu__item" href="#">Home</a></li>
+			<li><a class="menu__item" href="#">About</a></li>
+			<li><a class="menu__item" href="#">Team</a></li>
+			<li><a class="menu__item" href="#">Contact</a></li>
+			<li><a class="menu__item" href="#">Twitter</a></li>
+    </ul>
+  </div>
     <h1>Klantenbeheer</h1>
     <h2>Klantenlijst</h2>
     <ul>
