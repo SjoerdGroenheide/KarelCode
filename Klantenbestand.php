@@ -145,10 +145,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </label>
 
     <ul class="menu__box">
-      <li><a class="menu__item" href="#">Home</a></li>
-			<li><a class="menu__item" href="#">About</a></li>
-			<li><a class="menu__item" href="#">Team</a></li>
-			<li><a class="menu__item" href="#">Contact</a></li>
+      <li><a class="menu__item" href="dashboard.php">Home</a></li>
+			<li><a class="menu__item" href="Index.php">About</a></li>
+			<li><a class="menu__item" href="Klantenbestand.php">Team</a></li>
+			<li><a class="menu__item" href="#regrister.php">Contact</a></li>
 			<li><a class="menu__item" href="#">Twitter</a></li>
     </ul>
   </div>
