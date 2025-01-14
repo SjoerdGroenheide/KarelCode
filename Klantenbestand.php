@@ -76,16 +76,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 .menu-bar .menu {
-    display: flex;
+    display: none; /* Menu standaard verborgen */
     flex-direction: column;
     align-items: center;
     position: absolute;
     top: 50px;
     right: 0;
     background-color: #333;
-    width: 200px; /* Pas de breedte aan naar wens */
+    width: 200px;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-    visibility: hidden; /* Menu is verborgen standaard */
+}
+
+.menu-bar.active .menu {
+    display: flex; /* Menu zichtbaar maken */
 }
 
 .menu-bar .menu a {
@@ -132,31 +135,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
     </style>
 
-    <script>
-// Functie om het menu in of uit te schakelen
-function toggleMenu() {
-    const menuBar = document.querySelector('.menu-bar');
-    menuBar.classList.toggle('active'); // Zorgt ervoor dat het menu zichtbaar wordt
-}
-    </script>
-</head>
-<body>
-    <!-- Hamburgermenu -->
-    <div class="menu-bar">
-        <button class="hamburger" onclick="toggleMenu()">
-            <div></div>
-            <div></div>
-            <div></div>
-        </button>
-        <div class="menu">
-            <a href="#">Home</a>
-            <a href="#">Klantenlijst</a>
-            <a href="#">Klant toevoegen</a>
-            <a href="#">Klant verwijderen</a>
-            <a href="#">Klant aanpassen</a>
-        </div>
+<div class="menu-bar">
+    <button class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </button>
+    <div class="menu">
+        <a href="#">Home</a>
+        <a href="#">Klantenlijst</a>
+        <a href="#">Klant toevoegen</a>
+        <a href="#">Klant verwijderen</a>
+        <a href="#">Klant aanpassen</a>
     </div>
+</div>
 
+<script>
+    function toggleMenu() {
+        const menuBar = document.querySelector('.menu-bar');
+        menuBar.classList.toggle('active');
+    }
+</script>
     <h1>Klantenbeheer</h1>
     <h2>Klantenlijst</h2>
     <ul>
