@@ -32,7 +32,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
   </div>
 
     <main>
-        <h1>Welkom op je dashboard, <?php echo htmlspecialchars($_SESSION['Gebruiker']); ?>!</h1>
+        <h1>Welkom op je dashboard, <?php echo($_SESSION['Gebruiker']); ?>!</h1>
         <p>Gebruik het menu hierboven om te navigeren.</p>
     </main>
 
