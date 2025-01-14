@@ -7,12 +7,59 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-// Voorbeeldlijst van medewerkers
-$medewerkers = [
-    ["naam" => "Jan Jansen", "functie" => "Manager", "email" => "jan.jansen@example.com", "telefoon" => "123-456-7890"],
-    ["naam" => "Piet Pietersen", "functie" => "Developer", "email" => "piet.pietersen@example.com", "telefoon" => "987-654-3210"],
-    ["naam" => "Anna de Vries", "functie" => "HR Specialist", "email" => "anna.devries@example.com", "telefoon" => "555-666-7777"]
-];
+// Verbinden met de database
+$host = "localhost"; // Database host
+$username = "root";  // Database gebruikersnaam
+$password = "";      // Database wachtwoord
+$dbname = "karelveenstra"; // Database naam
+
+$conn = new mysqli($host, $username, $password, $dbname);
+
+// Controleer databaseverbinding
+if ($conn->connect_error) {
+    die("Verbinding mislukt: " . $conn->connect_error);
+}
+
+// Verwijder een medewerker als dat is aangevraagd
+if (isset($_GET['verwijder'])) {
+    $userid = intval($_GET['verwijder']);
+    $deleteQuery = "DELETE FROM gebruikers WHERE UserID = ?";
+    $stmt = $conn->prepare($deleteQuery);
+    $stmt->bind_param("i", $userid);
+    $stmt->execute();
+    $stmt->close();
+    header("Location: Medewerker.php");
+    exit;
+}
+
+// Voeg een nieuwe medewerker toe
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['toevoegen'])) {
+    $gebruiker = $_POST['gebruiker'];
+    $wachtwoord = password_hash($_POST['wachtwoord'], PASSWORD_DEFAULT); // Hash het wachtwoord
+    $account_type = $_POST['account_type'];
+    $voornaam = $_POST['voornaam'];
+    $achternaam = $_POST['achternaam'];
+    $email = $_POST['email'];
+    $telefoonnummer = $_POST['telefoonnummer'];
+
+    $insertQuery = "INSERT INTO gebruikers (Gebruiker, Wachtwoord, Account_type, Voornaam, Achternaam, Email, TelefoonNummer) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($insertQuery);
+    $stmt->bind_param("sssssss", $gebruiker, $wachtwoord, $account_type, $voornaam, $achternaam, $email, $telefoonnummer);
+
+    if ($stmt->execute()) {
+        header("Location: Medewerker.php");
+        exit;
+    } else {
+        echo "Fout bij het toevoegen van medewerker: " . $conn->error;
+    }
+
+    $stmt->close();
+}
+
+// Haal alle medewerkers op
+$query = "SELECT * FROM gebruikers";
+$result = $conn->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -20,37 +67,9 @@ $medewerkers = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Medewerkers</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .medewerker-lijst {
-            list-style: none;
-            padding: 0;
-        }
-
-        .medewerker-lijst li {
-            cursor: pointer;
-            padding: 10px;
-            border: 1px solid #ddd;
-            margin-bottom: 5px;
-        }
-
-        .medewerker-lijst li:hover {
-            background-color: #f0f0f0;
-        }
-
-        .medewerker-details {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-        }
-
-        .medewerker-details h2 {
-            margin-top: 0;
-        }
-    </style>
-</head>
+   </head>
 <body>
 <div class="hamburger-menu">
     <input id="menu__toggle" type="checkbox" />
@@ -61,47 +80,79 @@ $medewerkers = [
     <ul class="menu__box">
       <li><a class="menu__item" href="dashboard.php">Home</a></li>
 			<li><a class="menu__item" href="Klantenbestand.php">Klantenbestand</a></li>
-			<li><a class="menu__item" href="regrister.php">Regrister</a></li>
+			<li><a class="menu__item" href="Agenda.php">Agenda</a></li>
 			<li><a class="menu__item" href="medewerker.php">Medewerkers</a></li>
     </ul>
   </div>
-
     <main>
-        <h1>Welkom bij de medewerkers, <?php echo htmlspecialchars($_SESSION['Gebruiker']); ?>!</h1>
+        <h1>Medewerkerslijst</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Gebruikersnaam</th>
+                    <th>Voornaam</th>
+                    <th>Achternaam</th>
+                    <th>Email</th>
+                    <th>Telefoonnummer</th>
+                    <th>Functie</th>
+                    <th>Acties</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($result->num_rows > 0): ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['Gebruiker']); ?></td>
+                            <td><?php echo htmlspecialchars($row['Voornaam']); ?></td>
+                            <td><?php echo htmlspecialchars($row['Achternaam']); ?></td>
+                            <td><?php echo htmlspecialchars($row['Email']); ?></td>
+                            <td><?php echo htmlspecialchars($row['TelefoonNummer']); ?></td>
+                            <td><?php echo htmlspecialchars($row['Account_type']); ?></td>
+                            <td>
+                                <a class="delete-btn" href="Medewerker.php?verwijder=<?php echo $row['UserID']; ?>" onclick="return confirm('Weet je zeker dat je deze medewerker wilt verwijderen?');">Verwijderen</a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="7">Geen medewerkers gevonden.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
 
-        <h2>Medewerkers</h2>
-        <ul class="medewerker-lijst" id="medewerkerLijst">
-            <?php foreach ($medewerkers as $index => $medewerker): ?>
-                <li onclick="toonDetails(<?php echo $index; ?>)">
-                    <?php echo htmlspecialchars($medewerker['naam']); ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+        <h2>Voeg een nieuwe medewerker toe</h2>
+        <form method="POST" action="">
+            <label for="gebruiker">Gebruikersnaam:</label>
+            <input type="text" id="gebruiker" name="gebruiker" required>
 
-        <div class="medewerker-details" id="medewerkerDetails" style="display: none;">
-            <h2 id="detailsNaam"></h2>
-            <p><strong>Functie:</strong> <span id="detailsFunctie"></span></p>
-            <p><strong>Email:</strong> <span id="detailsEmail"></span></p>
-            <p><strong>Telefoon:</strong> <span id="detailsTelefoon"></span></p>
-        </div>
+            <label for="wachtwoord">Wachtwoord:</label>
+            <input type="password" id="wachtwoord" name="wachtwoord" required>
+
+            <label for="account_type">Functie:</label>
+            <select id="account_type" name="account_type" required>
+                <option value="Admin">Admin</option>
+                <option value="Medewerker">Medewerker</option>
+            </select>
+
+            <label for="voornaam">Voornaam:</label>
+            <input type="text" id="voornaam" name="voornaam" required>
+
+            <label for="achternaam">Achternaam:</label>
+            <input type="text" id="achternaam" name="achternaam" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="telefoonnummer">Telefoonnummer:</label>
+            <input type="text" id="telefoonnummer" name="telefoonnummer" required>
+
+            <button type="submit" name="toevoegen">Toevoegen</button>
+        </form>
     </main>
-
-    <script>
-        const medewerkers = <?php echo json_encode($medewerkers); ?>;
-
-        function toonDetails(index) {
-            const medewerker = medewerkers[index];
-            document.getElementById('detailsNaam').textContent = medewerker.naam;
-            document.getElementById('detailsFunctie').textContent = medewerker.functie;
-            document.getElementById('detailsEmail').textContent = medewerker.email;
-            document.getElementById('detailsTelefoon').textContent = medewerker.telefoon;
-            document.getElementById('medewerkerDetails').style.display = 'block';
-        }
-
-        function toggleMenu() {
-            const menu = document.getElementById('menu');
-            menu.classList.toggle('active');
-        }
-    </script>
 </body>
 </html>
+
+<?php
+$conn->close();
+?>

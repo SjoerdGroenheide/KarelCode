@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <ul class="menu__box">
       <li><a class="menu__item" href="dashboard.php">Home</a></li>
 			<li><a class="menu__item" href="Klantenbestand.php">Klantenbestand</a></li>
-			<li><a class="menu__item" href="regrister.php">Regrister</a></li>
+			<li><a class="menu__item" href="Agenda.php">Agenda</a></li>
 			<li><a class="menu__item" href="medewerker.php">Medewerkers</a></li>
     </ul>
   </div>
