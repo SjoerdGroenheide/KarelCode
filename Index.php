@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $_POST['Gebruiker'];
     $pass = $_POST['Wachtwoord'];
 
-    // Sanitize input om SQL-injecties te voorkomen
+    //  SQL-injecties te voorkomen
     $user = $conn->real_escape_string($user);
     $pass = $conn->real_escape_string($pass);
 
