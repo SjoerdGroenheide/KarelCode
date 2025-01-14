@@ -24,9 +24,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </div>
         <div class="menu" id="menu">
             <a href="dashboard.php">Home</a>
-            <a href="profiel.php">Profiel</a>
+            <a href="Medewerker.php">Medewerkers</a>
             <a href="instellingen.php">Instellingen</a>
-            <a href="logout.php">Uitloggen</a>
+            <a href="index.php">Uitloggen</a>
             <a href="klantenbestand.php">Klantenbestand</a>
                 </div>
     </div>
