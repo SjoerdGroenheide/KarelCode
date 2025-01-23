@@ -20,7 +20,11 @@ if ($conn->connect_error) {
     die("Verbinding mislukt: " . $conn->connect_error);
 }
 
+<<<<<<< Updated upstream
 // Verwijder een medewerkerD
+=======
+// Verwijder een medewerker als dat is aangevraagd
+>>>>>>> Stashed changes
 if (isset($_GET['verwijder'])) {
     $userid = intval($_GET['verwijder']);
     $deleteQuery = "DELETE FROM gebruikers WHERE UserID = ?";
@@ -28,6 +32,7 @@ if (isset($_GET['verwijder'])) {
     $stmt->bind_param("i", $userid);
     $stmt->execute();
     $stmt->close();
+<<<<<<< Updated upstream
     header("Location: Medewerker.php");
     exit;
 }
@@ -60,6 +65,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['toevoegen'])) {
 // Haal alle medewerkers op
 $query = "SELECT * FROM gebruikers";
 $result = $conn->query($query);
+=======
+    header("Location: Medewerker.php"); // Verwijderpagina opnieuw laden
+    exit;
+}
+
+// Haal alle medewerkers op
+$query = "SELECT * FROM gebruikers";
+$result = $conn->query($query);
+
+>>>>>>> Stashed changes
 ?>
 
 <!DOCTYPE html>
@@ -68,6 +83,7 @@ $result = $conn->query($query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medewerkers</title>
+<<<<<<< Updated upstream
     <link rel="stylesheet" href="style.css">
    </head>
 <body>
@@ -76,6 +92,46 @@ $result = $conn->query($query);
     <label class="menu__btn" for="menu__toggle">
       <span></span>
     </label>
+=======
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        .delete-btn {
+            color: red;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .delete-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">Mijn Dashboard</div>
+        <div class="menu">
+            <a href="dashboard.php">Home</a>
+            <a href="Medewerker.php">Medewerkers</a>
+            <a href="instellingen.php">Instellingen</a>
+            <a href="index.php">Uitloggen</a>
+        </div>
+    </div>
+>>>>>>> Stashed changes
 
     <ul class="menu__box">
       <li><a class="menu__item" href="dashboard.php">Home</a></li>
@@ -102,12 +158,21 @@ $result = $conn->query($query);
                 <?php if ($result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
+<<<<<<< Updated upstream
                             <td><?php echo ($row['Gebruiker']); ?></td>
                             <td><?php echo ($row['Voornaam']); ?></td>
                             <td><?php echo ($row['Achternaam']); ?></td>
                             <td><?php echo ($row['Email']); ?></td>
                             <td><?php echo ($row['TelefoonNummer']); ?></td>
                             <td><?php echo ($row['Account_type']); ?></td>
+=======
+                            <td><?php echo htmlspecialchars($row['Gebruiker']); ?></td>
+                            <td><?php echo htmlspecialchars($row['Voornaam']); ?></td>
+                            <td><?php echo htmlspecialchars($row['Achternaam']); ?></td>
+                            <td><?php echo htmlspecialchars($row['Email']); ?></td>
+                            <td><?php echo htmlspecialchars($row['TelefoonNummer']); ?></td>
+                            <td><?php echo htmlspecialchars($row['Account_type']); ?></td>
+>>>>>>> Stashed changes
                             <td>
                                 <a class="delete-btn" href="Medewerker.php?verwijder=<?php echo $row['UserID']; ?>" onclick="return confirm('Weet je zeker dat je deze medewerker wilt verwijderen?');">Verwijderen</a>
                             </td>
@@ -120,6 +185,7 @@ $result = $conn->query($query);
                 <?php endif; ?>
             </tbody>
         </table>
+<<<<<<< Updated upstream
 
         <h2>Voeg een nieuwe medewerker toe</h2>
         <form method="POST" action="">
@@ -150,6 +216,8 @@ $result = $conn->query($query);
 
             <button type="submit" name="toevoegen">Toevoegen</button>
         </form>
+=======
+>>>>>>> Stashed changes
     </main>
 </body>
 </html>
